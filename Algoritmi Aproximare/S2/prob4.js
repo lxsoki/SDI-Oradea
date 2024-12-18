@@ -1,5 +1,4 @@
 /** Seminar 2, problema 4 */
-
 /* 
     Exemplu de rulare:
     node prob4.js 0 1 1 2 2 4 1.5
@@ -12,7 +11,6 @@
     calculateLagrange -> calculeaza interpolarea Lagrange pentru un punct dat
     main -> functia principala care citeste argumentele din linia de comanda si afiseaza rezultatul
 */
-
 const calculateLagrangeBasis = (x, points, i) => {
 	let result = 1;
 	for (let j = 0; j < points.length; j++) {
@@ -22,50 +20,31 @@ const calculateLagrangeBasis = (x, points, i) => {
 	}
 	return result;
 };
-
 const calculateLagrange = (x, points) => {
 	let result = 0;
-
-	// Calculate interpolation using the Lagrange basis polynomials
 	for (let i = 0; i < points.length; i++) {
 		result += points[i].y * calculateLagrangeBasis(x, points, i);
 	}
-
 	return result;
 };
-
 const main = () => {
-	// Get command line arguments (skip first two as they are node and script path)
 	const args = process.argv.slice(2);
-
 	if (args.length < 3 || args.length % 2 === 0) {
 		console.error("Usage: node task.js x1 y1 x2 y2 ... xn yn x");
-		console.error(
-			"Where (x1,y1), (x2,y2), ..., (xn,yn) are points and x is the value to interpolate"
-		);
+		console.error("Where (x1,y1), (x2,y2), ..., (xn,yn) are points and x is the value to interpolate");
 		process.exit(1);
 	}
-
-	// Last argument is the x value to interpolate
 	const x = parseFloat(args[args.length - 1]);
-
-	// Convert remaining arguments to points array
 	const points = [];
 	for (let i = 0; i < args.length - 1; i += 2) {
-		points.push({
-			x: parseFloat(args[i]),
-			y: parseFloat(args[i + 1]),
-		});
+		points.push({ x: parseFloat(args[i]), y: parseFloat(args[i + 1]) });
 	}
-
 	try {
 		const result = calculateLagrange(x, points);
-		// Round to 4 decimal places to avoid floating point precision issues
 		console.log(Number(result.toFixed(4)));
 	} catch (error) {
 		console.error("Error calculating interpolation:", error.message);
 		process.exit(1);
 	}
 };
-
 main();
